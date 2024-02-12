@@ -88,35 +88,4 @@ class Showdown
     end
     #print("Done!")
   end
-
-  def self.npcInterractEvent
-    #pbCallBub(2,@event_id)
-    pbMessage("Hi!")
-    #pbCallBub(2,@event_id)
-    pbMessage("I was hired by professor oak to research about pokemon fights!")
-    #pbCallBub(2,@event_id)
-    pbMessage("I heared there is a place where you can fight players online!")
-    #pbCallBub(2,@event_id)
-    pbMessage("Do you want to export your team and try it out?")
-  end
-  def self.npcInterractionConvert
-    pbMessage("Exporting Your Team...")
-    Showdown.convert
-    $game_switches[0700] = true
-    pbMessage("Finished Exporting Team!")
-    #pbCallBub(2,@event_id)
-    pbMessage("Please check your game directory / multiplayer /team.txt ")
-    #pbCallBub(2,@event_id)
-    pbMessage("Just copy the files contents and import it into play.pokeathlon.com/#teambuilder")
-    pbMessage("Copy the sites link?")
-  end
-
-  def self.npcInterractCopyLink
-    link = 'https://play.pokeathlon.com/#teambuilder'
-    IO.popen('clip', 'w') { |pipe|
-      pipe.puts link}
-    pbMessage("Link copied to clipboard!")
-  end
-
-
 end
