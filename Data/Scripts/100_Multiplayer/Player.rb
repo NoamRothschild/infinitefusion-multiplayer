@@ -1,8 +1,9 @@
-Class Multiplayer
+class Multiplayer
     def self.path(file_name)
         script_path = File.expand_path(__FILE__)
         game_folder = File.expand_path(File.join(script_path, '..'))
-        return = File.join(game_folder, 'multiplayer', file_name)
+        multiplayer_folder = File.join(game_folder, 'multiplayer', file_name)
+        return multiplayer_folder
     end
     def self.generate_player_data
         data = {}
@@ -11,7 +12,7 @@ Class Multiplayer
         data[:direct] = $game_player.direction
         data[:map_id] = $game_map.map_id
         path = Multiplayer.path("Client.json")
-        File.open(path 'w') do |file|
+        File.open(path, 'w') do |file|
             file.puts data
         ensure
         file.close
@@ -24,5 +25,4 @@ Class Multiplayer
         client_info[:player_name] = $player.name
     end
 end
-
 
