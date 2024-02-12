@@ -12,4 +12,6 @@ Class Multiplayer
         client_info[:game_name] = System.game_title
         client_info[:player_name] = $player.name
     end
+end
+
 
