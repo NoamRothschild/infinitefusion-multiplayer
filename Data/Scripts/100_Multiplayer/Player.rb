@@ -7,8 +7,8 @@ class Multiplayer
     end
     def self.generate_player_data
         data = {}
-        data[:x] = game_player.x
-        data[:y] = game_player.y
+        data[:x] = $game_player.x
+        data[:y] = $game_player.y
         data[:direct] = $game_player.direction
         data[:map_id] = $game_map.map_id
         path = Multiplayer.path("Client.json")

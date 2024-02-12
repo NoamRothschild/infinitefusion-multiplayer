@@ -7,3 +7,16 @@ Data/SPRITE_CREDS
 Data/VERSION
 Exported Maps/*
 Game.rxproj
+Data/Weapons.rxdata
+Data/Tilesets.rxdata
+Data/System.rxdata
+Data/States.rxdata
+Data/Skills.rxdata
+Data/MapInfos.rxdata
+Data/Items.rxdata
+Data/Enemies.rxdata
+Data/CommonEvents.rxdata
+Data/Armors.rxdata
+Data/Animations.rxdata
+Data/Actors.rxdata
+Game.ini
