@@ -1,4 +1,6 @@
+
 class Multiplayer
+
     def self.path(file_name)
         script_path = File.expand_path(__FILE__)
         game_folder = File.expand_path(File.join(script_path, '..'))
@@ -6,12 +8,19 @@ class Multiplayer
         return multiplayer_folder
     end
     def self.generate_player_data
+        player_num = Multiplayer.player_number
+        if player_num == 0
+            return
+        end
         data = {}
         data[:x] = $game_player.x
         data[:y] = $game_player.y
-        data[:direct] = $game_player.direction
+        data[:direction] = $game_player.direction
         data[:map_id] = $game_map.map_id
-        path = Multiplayer.path("Client.json")
+        data[:player_num] = player_num
+        file_name = "client1\\Client.json" if player_num == 1
+        file_name = "client2\\Client.json" if player_num == 2
+        path = Multiplayer.path(file_name)
         File.open(path, 'w') do |file|
             file.puts data
         ensure
@@ -23,6 +32,14 @@ class Multiplayer
         client_info[:game_version] = SETTINGS::GAME_VERSION
         client_info[:game_name] = System.game_title
         client_info[:player_name] = $player.name
+    end
+
+    def self.player_number
+        p1 = $game_variables[294]
+        p2 = $game_variables[295]
+        return 1 if p1 == 1 && p2 == 0
+        return 2 if p1 == 0 && p2 == 1
+        return 0 #only get here if multiplayer is not activated
     end
 end
 
