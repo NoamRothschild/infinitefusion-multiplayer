@@ -6,8 +6,8 @@ The plugin is currently only developed by me, a 14yo kid with a passion for devo
 
 ## Features
 
-- TMP1
-- TMP2
+- Currently supports 2 player playing on the same machine.
+- work on localhost and public is currently being done.
 - TMP3
 - TMP4
 
