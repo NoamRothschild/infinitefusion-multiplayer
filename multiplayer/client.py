@@ -36,7 +36,7 @@ def send_updated_loc():
 
 def main():
     while True:
-        time.sleep(1)
+        #time.sleep(1)
         send_updated_loc()
         secondary_c = get_secondary_client_from_server()
         set_secondary_client_location(secondary_c) #giving the function the hash of the second player location from the server
