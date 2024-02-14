@@ -8,17 +8,19 @@ class DisplayedPlayer
     if player_num == 0
       $game_variables[298] = 0
       $game_variables[299] = 0
+      $game_variables[300] = 2
       return #player numbers were not set -> make the 2nd player in a stop that cannot be seen
     end
-    file_path = "client1\\Client.json" if player_num == 2
-    file_path = "client2\\Client.json" if player_num == 1
+    file_path = "client1\\client.rb" if player_num == 2
+    file_path = "client2\\client.rb" if player_num == 1
     path = Multiplayer.path(file_path)
     File.open(path, 'r') do |file|
       content = file.read
       if content.empty?
         $game_variables[298] = 0
         $game_variables[299] = 0
-        return #will get out of here if 2nd player is
+        $game_variables[300] = 2
+        return #will get out of here if 2nd player is not yet registered
       end
       transferred_data = DisplayedPlayer.hash_eval(content)
       if transferred_data[:map_id] == $game_map.map_id #if both players are on the same map
@@ -30,11 +32,11 @@ class DisplayedPlayer
   end
 
   def self.clean_data
-    path = Multiplayer.path("client1\\Client.json")
+    path = Multiplayer.path("client1\\client.rb")
     File.open(path, 'w') do |file|
       file.write("")
     end
-    path = Multiplayer.path("client2\\Client.json")
+    path = Multiplayer.path("client2\\client.rb")
     File.open(path, 'w') do |file|
       file.write("")
     end

@@ -18,8 +18,8 @@ class Multiplayer
         data[:direction] = $game_player.direction
         data[:map_id] = $game_map.map_id
         data[:player_num] = player_num
-        file_name = "client1\\Client.json" if player_num == 1
-        file_name = "client2\\Client.json" if player_num == 2
+        file_name = "client1\\client.rb" if player_num == 1
+        file_name = "client2\\client.rb" if player_num == 2
         path = Multiplayer.path(file_name)
         File.open(path, 'w') do |file|
             file.puts data
