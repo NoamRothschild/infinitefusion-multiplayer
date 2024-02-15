@@ -1,1 +1,1 @@
-{:x=>28, :y=>13, :direction=>4, :map_id=>77, :player_num=>2}
+{:x=>31, :y=>12, :direction=>4, :map_id=>77, :player_num=>2}

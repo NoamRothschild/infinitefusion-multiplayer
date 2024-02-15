@@ -15,9 +15,8 @@ class DisplayedPlayer
     file_path = "client1\\client.rb" if player_num == 2
     file_path = "client2\\client.rb" if player_num == 1
     path = Multiplayer.path(file_path)
-    File.open(path, 'r') do |file|
+      content = DisplayedPlayer.open_file(path)
       #Opening the other players location data
-      content = file.read
       if content.empty?
         DisplayedPlayer.clean_loc_vars
         return #will get out of here if 2nd player is not yet registered
@@ -34,7 +33,7 @@ class DisplayedPlayer
 
       if DisplayedPlayer.get_latest_loc
         #Move 1 tile towards updated location if player has a last location saved
-        DisplayedPlayer.walkto(75) #(Number is temporary)
+        DisplayedPlayer.walkto(75, transferred_data[:x], transferred_data[:y]) #(Number is temporary)
       else
         $game_variables[296] = transferred_data[:x]
         $game_variables[297] = transferred_data[:y]
@@ -45,6 +44,13 @@ class DisplayedPlayer
         #setting up latest location
       end
 
+
+  end
+
+  def self.open_file(path)
+    File.open(path, 'r') do |file|
+      contents = file.read
+      return contents
     end
   end
 
@@ -54,7 +60,7 @@ class DisplayedPlayer
     $game_variables[300] = 2
     return
   end
-  def self.walkto(event_id)
+  def self.walkto(event_id, currX, currY)
     x = $game_variables[298]
     y = $game_variables[299]
     last_x = $game_variables[296]
@@ -75,42 +81,57 @@ class DisplayedPlayer
       $game_variables[297] = y
       $game_variables[293] = 1 #set force-tp to true
       return 'teleport'
-    elsif walk_direction_x > 0
-      pbMoveRoute($game_map.events[event_id], [
-        PBMoveRoute::ChangeSpeed, 4,
-        PBMoveRoute::Right,
-      ])
-      x_steps += 1
-    elsif walk_direction_x < 0
-      pbMoveRoute($game_map.events[event_id], [
-        PBMoveRoute::ChangeSpeed, 4,
-        PBMoveRoute::Left,
-      ])
-      x_steps -= 1
-    elsif walk_direction_y < 0
-      pbMoveRoute($game_map.events[event_id], [
-        PBMoveRoute::ChangeSpeed, 4,
-        PBMoveRoute::Up,
-      ])
-      y_steps -= 1
-    elsif walk_direction_y > 0
-      pbMoveRoute($game_map.events[event_id], [
-        PBMoveRoute::ChangeSpeed, 4,
-        PBMoveRoute::Down,
-      ])
-      y_steps += 1
     end
+    if walk_direction_x > 0
+      (1..walk_direction_x).each { |i|
+        pbMoveRoute($game_map.events[event_id], [
+          PBMoveRoute::ChangeSpeed, 4,
+          PBMoveRoute::Right,
+        ])
+        x_steps += 1
+      }
+    elsif walk_direction_x < 0
+      (1..(-1*walk_direction_x)).each { |i|
+        pbMoveRoute($game_map.events[event_id], [
+          PBMoveRoute::ChangeSpeed, 4,
+          PBMoveRoute::Left,
+        ])
+        x_steps -= 1
+      }
+    end
+    if walk_direction_y < 0
+      #print("UP")
+      (1..(-1*walk_direction_y)).each { |i|
+        pbMoveRoute($game_map.events[event_id], [
+          PBMoveRoute::ChangeSpeed, 4,
+          PBMoveRoute::Up,
+        ])
+        y_steps -= 1
+      }
+    elsif walk_direction_y > 0
+      #print("DOWN")
+      (1..walk_direction_y).each { |i|
+        pbMoveRoute($game_map.events[event_id], [
+          PBMoveRoute::ChangeSpeed, 4,
+          PBMoveRoute::Down,
+        ])
+        y_steps += 1
+      }
+    end
+    #print("walk_dir_x: #{walk_direction_x}, walk_dir_y: #{walk_direction_y}")
     #updating locations
+
+    $game_variables[298] = (last_x + x_steps)
+    $game_variables[299] = (last_y + y_steps)
+
     $game_variables[296] = x
     $game_variables[297] = y
-    $game_variables[298] = (x + x_steps)
-    $game_variables[299] = (y + y_steps)
     return
   end
   def self.get_latest_loc
     latest_x = $game_variables[296]
     latest_y = $game_variables[297]
-    return true if latest_x != nil && latest_y != nil
+    return true if latest_x != 0 && latest_y != 0
     return false
   end
 
