@@ -39,7 +39,7 @@ class Multiplayer
         p2 = $game_variables[295]
         return 1 if p1 == 1 && p2 == 0
         return 2 if p1 == 0 && p2 == 1
-        return 0 #only get here if multiplayer is not activated
+        return 0 #only get here if multiplayer is not activated or cleaned
     end
 end
 
