@@ -3,10 +3,9 @@ import time
 from pathlib import Path
 
 #url = "https://f94e-2a06-c701-988c-b900-c1fa-f4c5-2741-70c3.ngrok-free.app"
-#url = "http://10.0.0.24:5000"
-url = "https://frosted120.pythonanywhere.com/"
+url = "http://10.0.0.24:5000"
 
-file_path = Path.cwd() / "client1/client.rb"
+file_path = Path.cwd() / "gift_poke.json"
 
 #testing
 #f = open(file_path, "r")

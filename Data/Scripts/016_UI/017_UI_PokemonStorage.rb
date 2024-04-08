@@ -1667,6 +1667,7 @@ class PokemonStorageScreen
               cmdDebug = -1
               cmdCancel = -1
               cmdNickname = -1
+              cmdGift = -1
               if heldpoke
                 helptext = _INTL("{1} is selected.", heldpoke.name)
                 commands[cmdMove = commands.length] = (pokemon) ? _INTL("Shift") : _INTL("Place")
@@ -1688,6 +1689,10 @@ class PokemonStorageScreen
               commands[cmdItem = commands.length] = _INTL("Item")
 
               commands[cmdRelease = commands.length] = _INTL("Release")
+
+              #Multiplayer sys addition
+              commands[cmdGift = commands.length] = _INTL("Gift pokemon")
+
               commands[cmdDebug = commands.length] = _INTL("Debug") if $DEBUG
               commands[cmdCancel = commands.length] = _INTL("Cancel")
               command = pbShowCommands(helptext, commands)
@@ -1715,6 +1720,12 @@ class PokemonStorageScreen
                 pbRelease(selected, @heldpkmn)
               elsif cmdDebug >= 0 && command == cmdDebug # Debug
                 pbPokemonDebug((@heldpkmn) ? @heldpkmn : pokemon, selected, heldpoke)
+              elsif cmdGift >= 0 && command == cmdGift #Gift
+                getPokemonData(selected)
+                player = Multiplayer.player_number
+                send_to = 1 if player == 2
+                send_to = 2 if player == 1
+                pbGift(selected, heldpoke, send_to)
               end
             end
           end
@@ -1809,8 +1820,56 @@ class PokemonStorageScreen
       @scene.pbCloseBox
     end
   end
+  def pbGift(selected, heldpoke, player_number)
+    pokemon = heldpoke
+    if heldpoke
+      pokemon = heldpoke
+    elsif selected[0] == -1
+      pokemon = @storage.party[selected[1]]
+    else
+      pokemon = @storage.boxes[selected[0]][selected[1]]
+    end
+    File.open("gift_poke#{player_number}" + ".json", 'w') do |f| f.write(
+      "text"
+    )
+    end
+    #deleting pokemon
+    if heldpoke
+      @heldpkmn = nil
+    else
+      @storage.pbDelete(selected[0], selected[1])
+    end
+    pbHardRefresh
+    pbDisplay(_INTL("Pokemon Gifted to player #{player_number}!"))
+  end
+
+  def getPokemonData(selected)
+    box = selected[0]
+    index = selected[1]
+    pokemon = @storage[box, index]
+    speciesname = PBSpecies.getName(pokemon.species)
+    species = pokemon.species
+    name = pokemon.name
+    level = pokemon.level
+    ability = pokemon.ability_id
+    gender = pokemon.gender
+    nature = pokemon.nature
+    shiny = pokemon.shiny?
+    hapiness = pokemon.hapiness
+    if pokemon.egg?
+      steps_to_hatch = pokemon.steps_to_hatch
+    end
+    move1 = pokemon.moves[0].id
+    move2 = pokemon.moves[1].id
+    move3 = pokemon.moves[2].id
+    move4 = pokemon.moves[3].id
+    pokeball = pokemon.poke_ball
+    item = pokemon.item
+    
 
 
+    print("#{speciesname}, end of getPokemonData")
+  end
   def renamePokemon(selected)
     box = selected[0]
     index = selected[1]

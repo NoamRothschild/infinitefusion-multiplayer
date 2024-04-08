@@ -26,6 +26,7 @@ class Multiplayer
         ensure
         file.close
         end
+        return data
     end
     def self.initialize
         client_info = {}

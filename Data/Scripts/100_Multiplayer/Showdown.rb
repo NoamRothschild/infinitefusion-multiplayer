@@ -1,6 +1,6 @@
 class Showdown
-  def self.convert
-    path = Multiplayer.path("Team.json")
+  def self.convert(file_name)
+    path = Multiplayer.path(file_name)
     File.open(path, 'w') do |file|
       for i in $Trainer.able_party do
 
