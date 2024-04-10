@@ -167,6 +167,10 @@ module PokemonDebugMixin
       end
     end
   end
+
+  def pbPokemonScreenSelf
+    self
+  end
 end
 
 #===============================================================================

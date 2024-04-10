@@ -193,71 +193,91 @@ class DisplayedPlayer
     return hash
   end
 
-  def moved?(last_loc, curr_loc)
+  def self.moved?(last_loc, curr_loc)
     if last_loc[:x] == curr_loc[:x] && last_loc[:y] == curr_loc[:y] && last_loc[:direction] == curr_loc[:direction] && last_loc[:map_id] == curr_loc[:map_id]
       return false
+    else
+      return true
     end
-    return true
+
   end
 
-  def self.pubsub()
-    begin
-      curr_loc = Multiplayer.generate_player_data
-      if moved?(last_loc_hashed, curr_loc) == true
-        #Saving current location to file
-        last_loc_hashed = curr_loc
+  def self.pubsub(event_id)
 
-        player_num = Multiplayer.player_number
-        file_path = "client1\\client.rb" if player_num == 1
-        file_path = "client2\\client.rb" if player_num == 2
-        if player_num == 0:
-          return
-        
-        apath = Multiplayer.path(file_path)
-        File.open(apath, 'w') do |file|
-          file.puts curr_loc
-        ensure
-          file.close
-        end
-      end
-
-      file_path = "client1\\client.rb" if last_loc_hashed[:player_num] == 2
-      file_path = "client2\\client.rb" if last_loc_hashed[:player_num] == 1
-      other_curr_loc_hashed = open_file(Multiplayer.path(file_path))
-      if moved?(other_last_loc_hashed, other_curr_loc_hashed)
-        
-        hashed_loc = DisplayedPlayer.hash_eval(other_curr_loc_hashed)
-        old_hashed_loc = DisplayedPlayer.hash_eval(other_last_loc_hashed)
-
-        $game_variables[298] = hashed_loc[:x]
-        $game_variables[299] = hashed_loc[:y]
-        $game_variables[296] = old_hashed_loc[:x]
-        $game_variables[297] = old_hashed_loc[:y]
-    
-        DisplayedPlayer.walkto(75, $game_variables[298], $game_variables[299])
-        other_last_loc_hashed = other_curr_loc_hashed
-      end
-
-
-    rescue StandardError => e
-      puts e
+    if @last_loc_hashed == nil
+      return
     end
-    
+
+    #Check if I moved
+    curr_loc = Multiplayer.generate_player_data
+    #print("[PUBSUB] Comparing #{@last_loc_hashed} And  #{curr_loc}")
+    if self.moved?(@last_loc_hashed, curr_loc) == true
+      #print("[PUBSUB] You moved!")
+      #Saving current location to file
+      @last_loc_hashed = curr_loc
+
+      player_num = Multiplayer.player_number
+      file_path = "client1\\client.rb" if player_num == 1
+      file_path = "client2\\client.rb" if player_num == 2
+      if player_num == 0
+        return
+      end
+
+      apath = Multiplayer.path(file_path)
+      File.open(apath, 'w') do |file|
+        file.puts curr_loc
+        #print("[PUBSUB] Updated location to file.")
+      ensure
+        file.close
+      end
+    end
+
+
+    if @other_last_loc_hashed == nil
+      return
+    end
+
+    #print("[PUBSUB] Checking for new secondary client movement...")
+    #Check if other moved
+    file_path = "client1\\client.rb" if @last_loc_hashed[:player_num].to_i == 2
+    file_path = "client2\\client.rb" if @last_loc_hashed[:player_num].to_i == 1
+    other_curr_loc_hashed = self.hash_eval(open_file(Multiplayer.path(file_path)))
+    #print("[PUBSUB] Comparing #{@other_last_loc_hashed} And  #{other_curr_loc_hashed}")
+    if self.moved?(@other_last_loc_hashed, other_curr_loc_hashed)
+      #print("[PUBSUB] Second player moved!")
+
+      hashed_loc = other_curr_loc_hashed
+      old_hashed_loc = @other_last_loc_hashed
+
+      $game_variables[298] = hashed_loc[:x]
+      $game_variables[299] = hashed_loc[:y]
+      $game_variables[296] = old_hashed_loc[:x]
+      $game_variables[297] = old_hashed_loc[:y]
+
+      self.walkto(event_id, $game_variables[298], $game_variables[299])
+      @other_last_loc_hashed = other_curr_loc_hashed
+    end
+    #print("[PUBSUB] end of function")
   end
 
-  def initialize()
-    last_loc_hashed = Multiplayer.generate_player_data
+  def self.initializer
+    @last_loc_hashed = Multiplayer.generate_player_data
+    #print("Last location hashed: #{@last_loc_hashed}")
     File.open(Multiplayer.path("player_num.txt"), 'w') do |file|
-      file.puts last_loc_hashed[:player_num]
+      #print("Player num value: #{@last_loc_hashed[:player_num]}")
+      file.puts @last_loc_hashed[:player_num]
     ensure
       file.close
     end
 
-    file_path = "client1\\client.rb" if last_loc_hashed[:player_num] == 2
-    file_path = "client2\\client.rb" if last_loc_hashed[:player_num] == 1
-    other_last_loc_hashed = open_file(Multiplayer.path(file_path))
-    
+    file_path = "client1\\client.rb" if @last_loc_hashed[:player_num] == 2
+    file_path = "client2\\client.rb" if @last_loc_hashed[:player_num] == 1
+    @other_last_loc_hashed = self.hash_eval(open_file(Multiplayer.path(file_path)))
+    #print("Other last loc: #{@other_last_loc_hashed}")
+  end
 
+  def self.gui()
+    puts "Click Action"
   end
 
 end

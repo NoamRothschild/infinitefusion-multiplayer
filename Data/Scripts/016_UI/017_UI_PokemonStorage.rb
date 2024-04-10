@@ -1668,6 +1668,7 @@ class PokemonStorageScreen
               cmdCancel = -1
               cmdNickname = -1
               cmdGift = -1
+              cmdRecieveGift = -1
               if heldpoke
                 helptext = _INTL("{1} is selected.", heldpoke.name)
                 commands[cmdMove = commands.length] = (pokemon) ? _INTL("Shift") : _INTL("Place")
@@ -1692,6 +1693,7 @@ class PokemonStorageScreen
 
               #Multiplayer sys addition
               commands[cmdGift = commands.length] = _INTL("Gift pokemon")
+              commands[cmdRecieveGift = commands.length] = _INTL("Receive gifted Pokemon")
 
               commands[cmdDebug = commands.length] = _INTL("Debug") if $DEBUG
               commands[cmdCancel = commands.length] = _INTL("Cancel")
@@ -1720,12 +1722,10 @@ class PokemonStorageScreen
                 pbRelease(selected, @heldpkmn)
               elsif cmdDebug >= 0 && command == cmdDebug # Debug
                 pbPokemonDebug((@heldpkmn) ? @heldpkmn : pokemon, selected, heldpoke)
+              elsif cmdRecieveGift >= 0 && command = cmdRecieveGift #Receive Gift
+                PokemonDebugMenuCommands.call("effect", "gift->receive", nil, nil, nil, nil, pbPokemonScreenSelf)
               elsif cmdGift >= 0 && command == cmdGift #Gift
-                getPokemonData(selected)
-                player = Multiplayer.player_number
-                send_to = 1 if player == 2
-                send_to = 2 if player == 1
-                pbGift(selected, heldpoke, send_to)
+                PokemonDebugMenuCommands.call("effect", "gift->send", (@heldpkmn) ? @heldpkmn : pokemon, selected, heldpoke, false, pbPokemonScreenSelf)
               end
             end
           end
@@ -1829,7 +1829,7 @@ class PokemonStorageScreen
     else
       pokemon = @storage.boxes[selected[0]][selected[1]]
     end
-    File.open("gift_poke#{player_number}" + ".json", 'w') do |f| f.write(
+    File.open(Multiplayer.path("gift_poke#{player_number}") + ".json", 'w') do |f| f.write(
       "text"
     )
     end
@@ -1844,31 +1844,38 @@ class PokemonStorageScreen
   end
 
   def getPokemonData(selected)
-    box = selected[0]
-    index = selected[1]
-    pokemon = @storage[box, index]
-    speciesname = PBSpecies.getName(pokemon.species)
-    species = pokemon.species
-    name = pokemon.name
-    level = pokemon.level
-    ability = pokemon.ability_id
-    gender = pokemon.gender
-    nature = pokemon.nature
-    shiny = pokemon.shiny?
-    hapiness = pokemon.hapiness
-    if pokemon.egg?
-      steps_to_hatch = pokemon.steps_to_hatch
-    end
-    move1 = pokemon.moves[0].id
-    move2 = pokemon.moves[1].id
-    move3 = pokemon.moves[2].id
-    move4 = pokemon.moves[3].id
-    pokeball = pokemon.poke_ball
-    item = pokemon.item
-    
 
+    # pokemon_data = {}
+    #
+    # box = selected[0]
+    # index = selected[1]
+    # pokemon = @storage[box, index]
+    #
+    # pokemon_data[:speciesname] = PBSpecies.getName(pokemon.species)
+    # pokemon_data[:species] = pokemon.species
+    # pokemon_data[:name] = pokemon.name
+    # pokemon_data[:level] = pokemon.level
+    # pokemon_data[:ability] = pokemon.ability_id
+    # pokemon_data[:gender] = pokemon.gender
+    # pokemon_data[:nature] = pokemon.nature
+    # pokemon_data[:shiny] = pokemon.shiny?
+    # #pokemon_data[:hapiness] = pokemon.hapiness
+    # if pokemon.egg?
+    #   pokemon_data[:steps_to_hatch] = pokemon.steps_to_hatch
+    # end
+    # #pokemon_data[:move1] = pokemon.moves[0].id
+    # #pokemon_data[:move2] = pokemon.moves[1].id
+    # #pokemon_data[:move3] = pokemon.moves[2].id
+    # #pokemon_data[:move4] = pokemon.moves[3].id
+    # pokemon_data[:pokeball] = pokemon.poke_ball
+    # pokemon_data[:item] = pokemon.item
+    #
+    #
+    # #print("#{pokemon_data[:speciesname]}, end of getPokemonData")
+    # print pokemon_data.map { |key, value| "Key: #{key}, Value: #{value}\n" }.join
+    # return pokemon_data
 
-    print("#{speciesname}, end of getPokemonData")
+    #PokemonDebugMenuCommands.copy()
   end
   def renamePokemon(selected)
     box = selected[0]

@@ -15,6 +15,7 @@ import os
 import re
 import time
 import multiprocessing
+import sys
 redis_client = redis.StrictRedis(host=host,port=port,password=password)
 pubsub = redis_client.pubsub()
 
@@ -27,9 +28,11 @@ elif player_num == 2:
 else:
     print(f"Error Reading Player Number From player_num.txt")
     time.sleep(5)
-    exit()
+    sys.exit()
 
-file_path = f"{os.getcwd()}/../client{player_num}/client.rb"
+others_map = 77
+
+file_path = f"{os.getcwd()}/../client{f'{player_num}'}/client.rb"
 last_loc = open(file_path, 'r').read().strip()
 last_map = re.search(r":map_id=>(\d+)", last_loc).group(1)
 pubsub.subscribe(last_map)
@@ -43,6 +46,13 @@ def listner():
     for message in pubsub.listen():
         if message['type'] == 'message':
             decoded_msg = message['data'].decode('utf-8')
+            if f"{decoded_msg}".startswith(f"GIFT-{player_num}:"):
+                with open(rf"{os.getcwd()}/../gift_poke{player_num}.json", 'w') as f:
+                    f.write(decoded_msg[7:]) #Removes added text to only send needed info
+                continue
+            elif f"{decoded_msg}".startswith(f"GIFT-{other}:"):
+                continue
+
             match = re.search(r":player_num=>(\d+)", decoded_msg) #Get player num
             recieved_player_num = match.group(1)
             print(f"Found new location for client{recieved_player_num}: {decoded_msg}")
@@ -50,6 +60,23 @@ def listner():
                 with open(f"{os.getcwd()}/../client{recieved_player_num}/client.rb", 'w') as file:
                     file.write(decoded_msg)
                     print(f"Saved new location for client{recieved_player_num}")
+                #global others_map 
+                #others_map = re.search(r":map_id=>(\d+)", decoded_msg).group(1)
+
+def check_for_gift(file_path):
+    raw = open(file_path, 'r').read().strip()
+    if raw != '':
+        #Found a gift package
+        global others_map
+        if others_map == None:
+            print("Other player not yet set.")
+            return
+        
+        redis_client.publish(others_map, f"GIFT-{other}:{raw}")
+        #[7:]
+
+        with open(file_path, 'w') as f:
+            f.write('')
 
 
 if __name__ == "__main__":
@@ -57,9 +84,17 @@ if __name__ == "__main__":
         multiprocessing.freeze_support()
         listner_thread = multiprocessing.Process(target=listner)
         listner_thread.start()
+
         #Start listening for new updates in your map
         while True:
-            curr_loc = open(file_path, 'r').read().strip()
+            check_for_gift(f"{os.getcwd()}/../gift_poke{other}.json")
+
+            with open(file_path, 'r') as f:
+                curr_loc = f.read().strip()
+            
+            if curr_loc == '':
+                continue
+
             if curr_loc != last_loc:
                 print("Client Move Detected! (Your Client)")
                 match = re.search(r":map_id=>(\d+)", curr_loc) #Get map id
