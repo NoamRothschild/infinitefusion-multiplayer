@@ -1212,6 +1212,7 @@ PokemonDebugMenuCommands.register("gift->send", {
   "name"        => _INTL("gift pokemon"),
   "effect"      => proc { |pkmn, pkmnid, heldpoke, settingUpBattle = false, screen|
     if screen.pbConfirm(_INTL("Are you sure you want to gift this Pokémon?"))
+      isEgg = false
         clonedpkmn = pkmn.clone
         clonedpkmn_hash = {}
       if clonedpkmn.egg? == false
@@ -1235,30 +1236,32 @@ PokemonDebugMenuCommands.register("gift->send", {
         clonedpkmn_hash[:move4] = pkmn.moves[3].id
       else
         screen.pbDisplay(_INTL("Feature does not support Pokemon eggs at the moment."))
+        isEgg = true
       end
 
+      if !isEgg
+        if screen.is_a?(PokemonPartyScreen)
+          screen.party[pkmnid] = nil
+          screen.party.compact!
+          screen.pbHardRefresh
+          screen.pbDisplay(_INTL("The Pokémon was sent."))
 
-      if screen.is_a?(PokemonPartyScreen)
-        screen.party[pkmnid] = nil
-        screen.party.compact!
-        screen.pbHardRefresh
-        screen.pbDisplay(_INTL("The Pokémon was sent."))
+        elsif screen.is_a?(PokemonStorageScreen)
 
-      elsif screen.is_a?(PokemonStorageScreen)
+          screen.scene.pbRelease(pkmnid, heldpoke)
+          (heldpoke) ? screen.heldpkmn = nil : screen.storage.pbDelete(pkmnid[0], pkmnid[1])
+          screen.scene.pbRefresh
 
-        screen.scene.pbRelease(pkmnid, heldpoke)
-        (heldpoke) ? screen.heldpkmn = nil : screen.storage.pbDelete(pkmnid[0], pkmnid[1])
-        screen.scene.pbRefresh
-
-        player = Multiplayer.player_number
-        send_to = 1 if player == 2
-        send_to = 2 if player == 1
-        File.open(Multiplayer.path("gift_poke#{send_to}") + ".json", 'w') do |f| (
-          f.write("#{clonedpkmn_hash}")
-        )
+          player = Multiplayer.player_number
+          send_to = 1 if player == 2
+          send_to = 2 if player == 1
+          File.open(Multiplayer.path("gift_poke#{send_to}") + ".json", 'w') do |f| (
+            f.write("#{clonedpkmn_hash}")
+          )
+          end
         end
+        next true
       end
-      next true
     end
     next false
   }
@@ -1268,18 +1271,30 @@ PokemonDebugMenuCommands.register("gift->receive", {
   "parent"      => "main",
   "name"        => _INTL("Recieve gift"),
   "effect"      => proc { |pkmn = nil, pkmnid = nil, heldpoke = nil, settingUpBattle = nil, screen|
-
+    continue = true
     player = Multiplayer.player_number
-    send_to = 1 if player == 2
-    send_to = 2 if player == 1
-    File.open(Multiplayer.path("gift_poke#{player}") + ".json", 'r') do |f|
-      if (f.read).empty? == false
-        contents = eval(f.read) #REPLACE EVAL -> TEMPORARY
-        if contents == ''
-          screen.pbDisplay(_INTL("No pokemon was waiting for you"))
-          return
-        end
+    if player != 1
+      if player != 2
+        continue = false
+      end
+    end
+    #NOTE: Number after file name represents WHO the gift is FOR
+    File.open(Multiplayer.path("gift_poke#{player.to_s}.json"), 'r') do |f|
 
+      #screen.pbDisplay(_INTL("Opening file gift_poke#{player.to_s}.json"))
+      contents = eval(f.read) #REPLACE EVAL -> TEMPORARY
+      #screen.pbDisplay(_INTL("Pokemon: #{contents}"))
+
+      if contents.to_s == ''
+        continue = false
+      end
+
+      #screen.pbDisplay(_INTL("Detected a pokemon (2) -> #{continue}"))
+
+      if continue
+
+        #screen.pbDisplay(_INTL("Starting clone process for"))
+        #screen.pbDisplay(_INTL("#{contents}"))
         clonedpkmn_hash = contents
         reconstructed_pkmn = Pokemon.new(clonedpkmn_hash[:species], clonedpkmn_hash[:level])
         #reconstructed_pkmn.move
@@ -1322,8 +1337,10 @@ PokemonDebugMenuCommands.register("gift->receive", {
           screen.pbHardRefresh
         end
 
+        File.open(Multiplayer.path("gift_poke#{player.to_s}.json"), 'w') do |file|
+          file.write('')
+        end
       end
-
     end
 
 

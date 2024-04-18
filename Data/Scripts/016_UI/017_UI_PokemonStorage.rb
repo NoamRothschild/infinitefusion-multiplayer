@@ -1668,7 +1668,7 @@ class PokemonStorageScreen
               cmdCancel = -1
               cmdNickname = -1
               cmdGift = -1
-              cmdRecieveGift = -1
+              cmdReceiveGift = -1
               if heldpoke
                 helptext = _INTL("{1} is selected.", heldpoke.name)
                 commands[cmdMove = commands.length] = (pokemon) ? _INTL("Shift") : _INTL("Place")
@@ -1693,7 +1693,7 @@ class PokemonStorageScreen
 
               #Multiplayer sys addition
               commands[cmdGift = commands.length] = _INTL("Gift pokemon")
-              commands[cmdRecieveGift = commands.length] = _INTL("Receive gifted Pokemon")
+              commands[cmdReceiveGift = commands.length] = _INTL("Receive gifted Pokemon")
 
               commands[cmdDebug = commands.length] = _INTL("Debug") if $DEBUG
               commands[cmdCancel = commands.length] = _INTL("Cancel")
@@ -1722,9 +1722,11 @@ class PokemonStorageScreen
                 pbRelease(selected, @heldpkmn)
               elsif cmdDebug >= 0 && command == cmdDebug # Debug
                 pbPokemonDebug((@heldpkmn) ? @heldpkmn : pokemon, selected, heldpoke)
-              elsif cmdRecieveGift >= 0 && command = cmdRecieveGift #Receive Gift
+              elsif cmdReceiveGift >= 0 && command == cmdReceiveGift #Receive Gift
+                #pbPokemonScreenSelf.pbDisplay(_INTL("Running Gift recieve func"))
                 PokemonDebugMenuCommands.call("effect", "gift->receive", nil, nil, nil, nil, pbPokemonScreenSelf)
               elsif cmdGift >= 0 && command == cmdGift #Gift
+                #pbPokemonScreenSelf.pbDisplay(_INTL("Running Gift send func"))
                 PokemonDebugMenuCommands.call("effect", "gift->send", (@heldpkmn) ? @heldpkmn : pokemon, selected, heldpoke, false, pbPokemonScreenSelf)
               end
             end

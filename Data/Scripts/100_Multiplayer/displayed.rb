@@ -207,9 +207,12 @@ class DisplayedPlayer
     if @last_loc_hashed == nil
       return
     end
-
     #Check if I moved
     curr_loc = Multiplayer.generate_player_data
+
+    if curr_loc.to_s == ''
+      return
+    end
     #print("[PUBSUB] Comparing #{@last_loc_hashed} And  #{curr_loc}")
     if self.moved?(@last_loc_hashed, curr_loc) == true
       #print("[PUBSUB] You moved!")
@@ -241,7 +244,14 @@ class DisplayedPlayer
     #Check if other moved
     file_path = "client1\\client.rb" if @last_loc_hashed[:player_num].to_i == 2
     file_path = "client2\\client.rb" if @last_loc_hashed[:player_num].to_i == 1
-    other_curr_loc_hashed = self.hash_eval(open_file(Multiplayer.path(file_path)))
+    other_curr_loc_hashed = open_file(Multiplayer.path(file_path))
+
+    if other_curr_loc_hashed.to_s == ''
+      return
+    end
+
+    other_curr_loc_hashed = self.hash_eval(other_curr_loc_hashed)
+
     #print("[PUBSUB] Comparing #{@other_last_loc_hashed} And  #{other_curr_loc_hashed}")
     if self.moved?(@other_last_loc_hashed, other_curr_loc_hashed)
       #print("[PUBSUB] Second player moved!")

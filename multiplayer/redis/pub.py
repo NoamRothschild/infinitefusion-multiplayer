@@ -19,20 +19,29 @@ import sys
 redis_client = redis.StrictRedis(host=host,port=port,password=password)
 pubsub = redis_client.pubsub()
 
+        
 
-player_num = int(open(f"{os.getcwd()}/../player_num.txt", 'r').read().strip())
-if player_num == 1:
-    other = 2
-elif player_num == 2:
-    other = 1
-else:
-    print(f"Error Reading Player Number From player_num.txt")
-    time.sleep(5)
-    sys.exit()
 
-others_map = 77
 
-file_path = f"{os.getcwd()}/../client{f'{player_num}'}/client.rb"
+
+class GlobalVariables:
+    def __init__(self) -> None:
+        self.player_num = int(open(f"{os.getcwd()}/../player_num.txt", 'r').read().strip())
+        if self.player_num == 1:
+            self.other = 2
+        elif self.player_num == 2:
+            self.other = 1
+        else:
+            print(f"Error Reading Player Number From player_num.txt")
+            time.sleep(5)
+            sys.exit()
+
+        self.others_map = re.search(r":map_id=>(\d+)", open(f"{os.getcwd()}/../client{f'{self.other}'}/client.rb", 'r').read().strip()).group(1)
+
+
+GlobalVars = GlobalVariables()
+
+file_path = f"{os.getcwd()}/../client{f'{GlobalVars.player_num}'}/client.rb"
 last_loc = open(file_path, 'r').read().strip()
 last_map = re.search(r":map_id=>(\d+)", last_loc).group(1)
 pubsub.subscribe(last_map)
@@ -46,33 +55,27 @@ def listner():
     for message in pubsub.listen():
         if message['type'] == 'message':
             decoded_msg = message['data'].decode('utf-8')
-            if f"{decoded_msg}".startswith(f"GIFT-{player_num}:"):
-                with open(rf"{os.getcwd()}/../gift_poke{player_num}.json", 'w') as f:
+            if f"{decoded_msg}".startswith(f"GIFT-{GlobalVars.player_num}:"):
+                with open(rf"{os.getcwd()}/../gift_poke{GlobalVars.player_num}.json", 'w') as f:
                     f.write(decoded_msg[7:]) #Removes added text to only send needed info
                 continue
-            elif f"{decoded_msg}".startswith(f"GIFT-{other}:"):
+            elif f"{decoded_msg}".startswith(f"GIFT-{GlobalVars.other}:"):
                 continue
 
             match = re.search(r":player_num=>(\d+)", decoded_msg) #Get player num
             recieved_player_num = match.group(1)
             print(f"Found new location for client{recieved_player_num}: {decoded_msg}")
-            if int(recieved_player_num) != player_num:
+            if int(recieved_player_num) != GlobalVars.player_num:
                 with open(f"{os.getcwd()}/../client{recieved_player_num}/client.rb", 'w') as file:
                     file.write(decoded_msg)
                     print(f"Saved new location for client{recieved_player_num}")
-                #global others_map 
-                #others_map = re.search(r":map_id=>(\d+)", decoded_msg).group(1)
+                GlobalVars.others_map = re.search(r":map_id=>(\d+)", decoded_msg).group(1)
 
 def check_for_gift(file_path):
     raw = open(file_path, 'r').read().strip()
     if raw != '':
         #Found a gift package
-        global others_map
-        if others_map == None:
-            print("Other player not yet set.")
-            return
-        
-        redis_client.publish(others_map, f"GIFT-{other}:{raw}")
+        redis_client.publish(GlobalVars.others_map, f"GIFT-{GlobalVars.other}:{raw}")
         #[7:]
 
         with open(file_path, 'w') as f:
@@ -87,7 +90,7 @@ if __name__ == "__main__":
 
         #Start listening for new updates in your map
         while True:
-            check_for_gift(f"{os.getcwd()}/../gift_poke{other}.json")
+            check_for_gift(f"{os.getcwd()}/../gift_poke{GlobalVars.other}.json")
 
             with open(file_path, 'r') as f:
                 curr_loc = f.read().strip()
