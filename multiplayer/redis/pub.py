@@ -2,9 +2,9 @@
 #
 # After creating the database in redis, click on 'connect' and copy needed crodentials here:
 
-host = ''
-port = 0
-password = '' 
+host = 'redis-14396.c72.eu-west-1-2.ec2.cloud.redislabs.com'
+port = 14396
+password = '8x3y3Sjy8YJXqO2NMmv2xEG4Q11JBd3H' 
 
 # After you are done you can go ahead and save & close this file
 #

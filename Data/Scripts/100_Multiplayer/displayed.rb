@@ -39,9 +39,9 @@ class DisplayedPlayer
         $game_variables[296] = transferred_data[:x]
         $game_variables[297] = transferred_data[:y]
         $game_variables[293] = 1 #activate force-tp
-        print("latest location was not set. setting and force-tp.")
-        print("hence, the player location: X- #{$game_variables[298]} Y- #{$game_variables[299]}
-            last x - #{$game_variables[296]} last y - #{$game_variables[297]}")
+        #print("latest location was not set. setting and force-tp.")
+        #print("hence, the player location: X- #{$game_variables[298]} Y- #{$game_variables[299]}
+        #    last x - #{$game_variables[296]} last y - #{$game_variables[297]}")
         #setting up latest location
       end
 
@@ -94,9 +94,9 @@ class DisplayedPlayer
     #if walk_direction_x >= 5 || walk_direction_x <= -5 || walk_direction_y >= 5 || walk_direction_y <= -5
     if Math.sqrt(walk_direction_x*walk_direction_x+walk_direction_y*walk_direction_y) >= 5
       #if too far: teleport
-      print("player was too far... activating force-tp")
-      print("hence, the player location: X- #{$game_variables[298]} Y- #{$game_variables[299]}
-            last x - #{$game_variables[296]} last y - #{$game_variables[297]}")
+      #print("player was too far... activating force-tp")
+      #print("hence, the player location: X- #{$game_variables[298]} Y- #{$game_variables[299]}
+      #      last x - #{$game_variables[296]} last y - #{$game_variables[297]}")
       $game_variables[296] = x
       $game_variables[297] = y
       $game_variables[293] = 1 #set force-tp to true
@@ -201,8 +201,9 @@ class DisplayedPlayer
     end
 
   end
-
   def self.pubsub(event_id)
+
+
 
     if @last_loc_hashed == nil
       return
@@ -272,6 +273,10 @@ class DisplayedPlayer
 
   def self.initializer
     @last_loc_hashed = Multiplayer.generate_player_data
+
+    if @last_loc_hashed[:player_num] == nil
+      pbMessage("There was an error getting player number.")
+    end
     #print("Last location hashed: #{@last_loc_hashed}")
     File.open(Multiplayer.path("player_num.txt"), 'w') do |file|
       #print("Player num value: #{@last_loc_hashed[:player_num]}")

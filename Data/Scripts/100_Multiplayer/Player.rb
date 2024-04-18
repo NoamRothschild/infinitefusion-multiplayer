@@ -10,7 +10,7 @@ class Multiplayer
     def self.generate_player_data
         player_num = Multiplayer.player_number
         if player_num == 0
-            return
+            return nil
         end
         data = {}
         data[:x] = $game_player.x

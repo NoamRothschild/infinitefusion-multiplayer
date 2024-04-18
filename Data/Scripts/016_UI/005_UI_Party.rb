@@ -1066,6 +1066,7 @@ class PokemonPartyScreen
       cmdEntry = -1
       cmdNoEntry = -1
       cmdSummary = -1
+      cmdToShowdown = -1
       commands = []
       if (statuses[pkmnid] || 0) == 1
         commands[cmdEntry = commands.length] = _INTL("Entry")
@@ -1074,6 +1075,9 @@ class PokemonPartyScreen
       end
       pkmn = @party[pkmnid]
       commands[cmdSummary = commands.length] = _INTL("Summary")
+
+      commands[cmdToShowdown = commands.length] = _INTL("To Showdown")
+
       commands[commands.length] = _INTL("Cancel")
       command = @scene.pbShowCommands(_INTL("Do what with {1}?", pkmn.name), commands) if pkmn
       if cmdEntry >= 0 && command == cmdEntry
@@ -1091,6 +1095,8 @@ class PokemonPartyScreen
         @scene.pbSummary(pkmnid) {
           @scene.pbSetHelpText((@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
         }
+      elsif cmdToShowdown >= -1 && command == cmdToShowdown
+        PokemonDebugMenuCommands.call("effect", "showdown-conv", nil, nil, nil, nil, pbPokemonScreenSelf)
       end
     end
     @scene.pbEndScene
@@ -1201,6 +1207,7 @@ class PokemonPartyScreen
       cmdSwitch = -1
       cmdMail = -1
       cmdItem = -1
+      cmdToShowdown = -1
       # Build the commands
       commands[cmdSummary = commands.length] = _INTL("Summary")
       commands[cmdNickname = commands.length] = _INTL("Nickname") if !pkmn.egg?
@@ -1222,6 +1229,8 @@ class PokemonPartyScreen
           commands[cmdItem = commands.length] = _INTL("Item")
         end
       end
+      commands[cmdToShowdown = commands.length] = _INTL("To Showdown")
+
       commands[commands.length] = _INTL("Cancel")
       command = @scene.pbShowCommands(_INTL("Do what with {1}?", pkmn.name), commands)
       havecommand = false
@@ -1281,6 +1290,8 @@ class PokemonPartyScreen
         @scene.pbSummary(pkmnid) {
           @scene.pbSetHelpText((@party.length > 1) ? _INTL("Choose a Pokémon.") : _INTL("Choose Pokémon or cancel."))
         }
+      elsif cmdToShowdown >= -1 && command == cmdToShowdown
+        PokemonDebugMenuCommands.call("effect", "showdown-conv", nil, nil, nil, nil, pbPokemonScreenSelf)
       elsif cmdNickname >= 0 && command == cmdNickname
         pbPokemonRename(pkmn,pkmnid)
       elsif cmdDebug >= 0 && command == cmdDebug

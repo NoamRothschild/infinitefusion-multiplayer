@@ -1350,6 +1350,23 @@ PokemonDebugMenuCommands.register("gift->receive", {
   }
 })
 
+PokemonDebugMenuCommands.register("showdown-conv", {
+  "parent"      => "main",
+  "name"        => _INTL("ToShowdown"),
+  "effect"      => proc { |pkmn = nil, pkmnid = nil, heldpoke = nil, settingUpBattle = nil, screen|
+    Showdown.convert("Team.json")
+    screen.pbDisplay(_INTL("Finished Exporting Team!"))
+    screen.pbDisplay(_INTL("Please check your game directory / multiplayer / team.json"))
+    screen.pbDisplay(_INTL("Just copy the files contents and import it into play.pokeathlon.com/#teambuilder"))
+    screen.pbDisplay(_INTL("Copying site to clipboard..."))
+    link = 'https://play.pokeathlon.com/#teambuilder'
+    IO.popen('clip', 'w') { |pipe| pipe.puts link}
+    screen.pbDisplay(_INTL("Link copied to clipboard!"))
+  }
+})
+
+
+
 PokemonDebugMenuCommands.register("delete", {
   "parent"      => "main",
   "name"        => _INTL("Delete"),

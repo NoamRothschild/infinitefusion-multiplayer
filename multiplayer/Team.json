@@ -1,14 +1,3 @@
-Giracor (Giratina) (M)
-Ability: hypercutter
-Fusion: Gliscor
-EVs: 69 HP / 172 Atk / 33 Def / 159 SpA / 25 SpD / 58 Spe /
-Naughty Nature
-IVs: 23 HP / 28 Atk / 14 Def / 12 SpA / 17 SpD / 17 Spe /
-- uturn
-- dragonclaw
-- destinybond
-- nightslash
-
 Atlas (Golem) (M) @ expshare
 Ability: scrappy
 Fusion: Machamp
@@ -19,6 +8,17 @@ IVs: 10 HP / 9 Atk / 9 Def / 12 SpA / 12 SpD / 20 Spe /
 - yawn
 - falseswipe
 - dualchop
+
+Giracor (Giratina) (M)
+Ability: hypercutter
+Fusion: Gliscor
+EVs: 69 HP / 172 Atk / 33 Def / 159 SpA / 25 SpD / 58 Spe /
+Naughty Nature
+IVs: 23 HP / 28 Atk / 14 Def / 12 SpA / 17 SpD / 17 Spe /
+- uturn
+- dragonclaw
+- destinybond
+- nightslash
 
 Jirachi (Jirachi) (M) @ expshare
 Ability: serenegrace
