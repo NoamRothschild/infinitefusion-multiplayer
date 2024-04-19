@@ -34,7 +34,7 @@ class DisplayedPlayer
 
       if DisplayedPlayer.get_latest_loc
         #Move 1 tile towards updated location if player has a last location saved
-        DisplayedPlayer.walkto(75, transferred_data[:x], transferred_data[:y]) #(Number is temporary)
+        DisplayedPlayer.walkto(75, transferred_data[:direction]) #(Number is temporary)
       else
         $game_variables[296] = transferred_data[:x]
         $game_variables[297] = transferred_data[:y]
@@ -77,7 +77,7 @@ class DisplayedPlayer
     $game_variables[300] = 2
     return
   end
-  def self.walkto(event_id, currX, currY)
+  def self.walkto(event_id, direction)
     x = $game_variables[298]
     y = $game_variables[299]
     last_x = $game_variables[296]
@@ -141,11 +141,35 @@ class DisplayedPlayer
     #print("walk_dir_x: #{walk_direction_x}, walk_dir_y: #{walk_direction_y}")
     #updating locations
 
+    DisplayedPlayer.RotateDirection(event_id, direction)
+
     $game_variables[298] = (last_x + x_steps)
     $game_variables[299] = (last_y + y_steps)
 
     $game_variables[296] = x
     $game_variables[297] = y
+    return
+  end
+
+
+  def self.RotateDirection(event_id, direction)
+    if direction == 2
+      pbMoveRoute($game_map.events[event_id], [
+        PBMoveRoute::TurnDown,
+      ])
+    elsif direction == 4
+      pbMoveRoute($game_map.events[event_id], [
+        PBMoveRoute::TurnLeft,
+      ])
+    elsif direction == 6
+      pbMoveRoute($game_map.events[event_id], [
+        PBMoveRoute::TurnRight,
+      ])
+    elsif direction == 8
+      pbMoveRoute($game_map.events[event_id], [
+        PBMoveRoute::TurnUp,
+      ])
+    end
     return
   end
 
@@ -202,8 +226,6 @@ class DisplayedPlayer
 
   end
   def self.pubsub(event_id)
-
-
 
     if @last_loc_hashed == nil
       return
@@ -264,8 +286,9 @@ class DisplayedPlayer
       $game_variables[299] = hashed_loc[:y]
       $game_variables[296] = old_hashed_loc[:x]
       $game_variables[297] = old_hashed_loc[:y]
+      $game_variables[300] = hashed_loc[:direction]
 
-      self.walkto(event_id, $game_variables[298], $game_variables[299])
+      self.walkto(event_id, $game_variables[300])
       @other_last_loc_hashed = other_curr_loc_hashed
     end
     #print("[PUBSUB] end of function")

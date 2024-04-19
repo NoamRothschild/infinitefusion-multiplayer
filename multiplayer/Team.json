@@ -1,24 +1,13 @@
-Atlas (Golem) (M) @ expshare
-Ability: scrappy
-Fusion: Machamp
-EVs: 71 HP / 166 Atk / 35 Def / 146 SpA / 31 SpD / 67 Spe /
-Gentle Nature
-IVs: 10 HP / 9 Atk / 9 Def / 12 SpA / 12 SpD / 20 Spe /
-- rockblast
-- yawn
-- falseswipe
-- dualchop
-
-Giracor (Giratina) (M)
-Ability: hypercutter
-Fusion: Gliscor
-EVs: 69 HP / 172 Atk / 33 Def / 159 SpA / 25 SpD / 58 Spe /
-Naughty Nature
-IVs: 23 HP / 28 Atk / 14 Def / 12 SpA / 17 SpD / 17 Spe /
-- uturn
-- dragonclaw
-- destinybond
-- nightslash
+adsda (Luxray) (M)
+Ability: compoundeyes
+Fusion: Butterfree
+EVs: 1 HP / 1 Atk / 1 Def / 1 SpA / 1 SpD / 1 Spe /
+Impish Nature
+IVs: 31 HP / 5 Atk / 25 Def / 19 SpA / 24 SpD / 18 Spe /
+- electricterrain
+- tackle
+- charge
+- leer
 
 Jirachi (Jirachi) (M) @ expshare
 Ability: serenegrace
@@ -30,37 +19,4 @@ IVs: 13 HP / 23 Atk / 13 Def / 23 SpA / 11 SpD / 15 Spe /
 - doubleedge
 - rest
 - zenheadbutt
-
-Tregon (Trevenant) (M)
-Ability: levitate
-Fusion: Flygon
-EVs: 3 HP / 3 Atk / 2 Def / 3 SpA / 5 SpD / 2 Spe /
-Adamant Nature
-IVs: 15 HP / 20 Atk / 29 Def / 23 SpA / 6 SpD / 9 Spe /
-- hornleech
-- dragonclaw
-- leechseed
-- dragondance
-
-Spiridon (Spiritomb) (M)
-Ability: pressure
-Fusion: Groudon
-EVs: 2 HP / 2 Atk / 1 Def / 1 SpA / 4 SpD / 1 Spe /
-Impish Nature
-IVs: 18 HP / 21 Atk / 26 Def / 14 SpA / 11 SpD / 22 Spe /
-- feintattack
-- lavaplume
-- earthpower
-- confuseray
-
-Charkia (Charizard) (M)
-Ability: blaze
-Fusion: Palkia
-EVs: 16 HP / 55 Atk / 17 Def / 53 SpA / 13 SpD / 31 Spe /
-Rash Nature
-IVs: 27 HP / 18 Atk / 17 Def / 17 SpA / 20 SpD / 12 Spe /
-- aquaring
-- dragonclaw
-- firefang
-- powergem
 
