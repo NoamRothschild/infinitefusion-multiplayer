@@ -28,8 +28,8 @@ end
 def download_file(url, saveLocation)
   begin
     #TODO: Remove next line (Added by me)
-    echoln _INTL("\nSkipped Download")
-    return nil
+    #echoln _INTL("\nSkipped Download")
+    #return nil
 
 
     response = HTTPLite.get(url)
@@ -57,8 +57,8 @@ end
 def download_sprite(base_path, head_id, body_id, saveLocation = "Graphics/temp", alt_letter = "", spriteformBody_suffix = "", spriteformHead_suffix = "")
   begin
     #TODO: Remove next line (Added by me)
-    echoln _INTL("\nSkipped Download")
-    return nil
+    #echoln _INTL("\nSkipped Download")
+    #return nil
 
 
 
