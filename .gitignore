@@ -21,3 +21,6 @@ Data/Animations.rxdata
 Data/Actors.rxdata
 Game.ini
 Data/System.rxdata
+*.png
+*.gif
+Graphics/Pictures/Readme.txt
