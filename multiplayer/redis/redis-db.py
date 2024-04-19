@@ -2,18 +2,27 @@
 #
 # After creating the database in redis, click on 'connect' and copy needed crodentials here:
 
-host = 'redis-14396.c72.eu-west-1-2.ec2.cloud.redislabs.com'
-port = 14396
-password = '8x3y3Sjy8YJXqO2NMmv2xEG4Q11JBd3H' 
+host = ''
+port = 0
+password = '' 
 
 # After you are done you can go ahead and save & close this file
 #
 ################################# USER GUIDE #################################
 
+import time
+if __name__ == "__main__":
+        if host == '' and port == 0 and password == '':
+                print("Please add your redis database details to the file before starting")
+                time.sleep(1)
+                print("Closing in 5 seconds...")
+                time.sleep(5)
+                exit()
+
+
 import redis
 import os
 import re
-import time
 import multiprocessing
 import sys
 redis_client = redis.StrictRedis(host=host,port=port,password=password)
