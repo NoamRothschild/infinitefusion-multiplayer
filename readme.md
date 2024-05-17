@@ -15,7 +15,7 @@ The plugin is currently only developed by me (Noam Rothschild), a 14yo kid with 
 
 - Max of 2 players remotely playing.
 
-![PIF-Multiplayer](https://imgur.com/HwCFTPk)
+![PIF-Multiplayer](https://i.imgur.com/HwCFTPk.mp4)
 
 - Gifting system from player 2 player.
 
