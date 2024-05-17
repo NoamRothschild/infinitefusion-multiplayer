@@ -1,5 +1,3 @@
-from os import chdir
-chdir(r"D:\Program-Files\InfusionCopies\MultiplayerProject\infinitefusion-multiplayer\multiplayer\redis")
 ################################# USER GUIDE #################################
 #
 # After creating the database in redis, click on 'connect' and copy needed crodentials here:
