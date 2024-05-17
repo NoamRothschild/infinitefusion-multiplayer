@@ -57,6 +57,10 @@ class DisplayedPlayer
     file_path = "client2\\client.rb" if player_num == 1
     path = Multiplayer.path(file_path)
     contents = DisplayedPlayer.open_file(path)
+    if "#{contents}" == ''
+      return
+    end
+
     hash_data = DisplayedPlayer.hash_eval(contents)
     if hash_data[:map_id] == $game_map.map_id
       $game_variables[298] = hash_data[:x]
