@@ -112,7 +112,6 @@ if __name__ == '__main__':
 
         while True:
             if GlobalVars.first_time:
-                print("Gift path: ", f"{os.getcwd()}/../gift_poke{GlobalVars.other}.json")
                 GlobalVars.first_time = False
             check_for_gift(f"{os.getcwd()}/../gift_poke{GlobalVars.other}.json")
 
