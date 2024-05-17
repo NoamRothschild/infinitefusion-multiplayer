@@ -14,8 +14,8 @@ The plugin is currently only developed by me (Noam Rothschild), a 14yo kid with 
 ## Features
 
 - Max of 2 players remotely playing.
-
-![PIF-Multiplayer](https://i.imgur.com/HwCFTPk.mp4)
+  
+![PIF-Multiplayer](https://github.com/NoamRothschild/infinitefusion-multiplayer/assets/98104540/195f2331-e17a-4748-8ff7-692f98ddb878)
 
 - Gifting system from player 2 player.
 
@@ -23,7 +23,7 @@ The plugin is currently only developed by me (Noam Rothschild), a 14yo kid with 
 
 - Convert your team to Pokéathalon!
 
-![ToPokéathalon](https://i.imgur.com/yqxePSe.gif)
+![ToPokéathalon](https://github.com/NoamRothschild/infinitefusion-multiplayer/assets/98104540/19d4314c-c7ab-4788-8617-db8894b2b3b2)
 
 ## Version support
 
