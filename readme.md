@@ -3,7 +3,7 @@
 This is a hard coded plugin developed for the community made game "Pokémon Infinite Fusion" that adds a way to connect multiple clients to a server and play the game with your friends!
 The plugin is currently only developed by me (Noam Rothschild), a 14yo kid with a passion for development, so nothing is perfect, and this is also my first project using the programming language "Ruby" and first experience using GitHub, so please notify me if any problems occur and tell me I suck at coding :) .
 
-![Redit post](https://www.reddit.com/r/PokemonInfiniteFusion/comments/1cujg4n/multiplayer_plugin_to_pokémon_infinite_fusion/)
+[Redit post](https://www.reddit.com/r/PokemonInfiniteFusion/comments/1cujg4n/multiplayer_plugin_to_pokémon_infinite_fusion/)
 
 ## Table of contents
 - [**Features**](#features)
