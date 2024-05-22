@@ -1,18 +1,31 @@
-################################# USER GUIDE #################################
-#
-# After creating the database in redis, click on 'connect' and copy needed crodentials here:
+from os import chdir
+from os.path import dirname, abspath
+chdir(dirname(abspath(__file__)))
 
-host = ''
-port = 0
-password = ''
+with open('db-info.txt', 'r') as file:
+    # Read the lines
+    lines = file.readlines()
 
-# After you are done you can go ahead and save & close this file
-#
-################################# USER GUIDE #################################
+# Initialize variables
+host = None
+port = None
+password = None
 
-#if __name__ != "__main__":
-#    exit()
-
+# Iterate through each line
+for line in lines:
+    # Split the line by '='
+    key, value = line.strip().split('=')
+    # Strip whitespace from the key and value
+    key = key.strip()
+    value = value.strip()
+    
+    # Assign values based on the key
+    if key == 'host':
+        host = value.replace("'", "")
+    elif key == 'port':
+        port = int(value)
+    elif key == 'password':
+        password = value.replace("'", "")
 
 import time
 
@@ -22,6 +35,7 @@ if host == '' and port == 0 and password == '':
         print("Closing in 5 seconds...")
         time.sleep(5)
         exit()
+
 
 #From Here
 import redis
