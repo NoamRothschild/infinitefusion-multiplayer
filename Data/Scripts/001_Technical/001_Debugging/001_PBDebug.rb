@@ -1,5 +1,6 @@
 module PBDebug
   @@log = []
+  $gui_active = false
 
   def self.logonerr
     begin
