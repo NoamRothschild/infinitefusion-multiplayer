@@ -17,7 +17,7 @@ class PokemonSystem
   attr_accessor :level_caps
   attr_accessor :battle_type
   attr_accessor :download_sprites
-  attr_accessor :debug_mode
+  #attr_accessor :debug_mode
   attr_accessor :player_num
   attr_accessor :init
   attr_accessor :to_showdown
@@ -37,7 +37,7 @@ class PokemonSystem
     @quicksurf = 0
     @battle_type = 0
     @download_sprites = 0
-    @debug_mode = 0
+    #@debug_mode = 0
     @player_num = 0
     @init = 0
     @to_showdown = 0
@@ -419,7 +419,7 @@ class PokemonOption_Scene
   def pbGetOptions(inloadscreen = false)
     options = []
 
-    options << EnumOption.new(_INTL("Debug mode"), [_INTL("ON"), _INTL("OFF")],
+    `options << EnumOption.new(_INTL("Debug mode"), [_INTL("ON"), _INTL("OFF")],
                               proc {
                                 $PokemonSystem.debug_mode
                                 #$DEBUG = true
@@ -430,7 +430,7 @@ class PokemonOption_Scene
                                 #$DEBUG = false
                                 #pbMessage("Debug Mode Disabled")
                               }, "Enable/Disable Debug mode"
-    )
+    )`
 
     options << EnumOption.new(_INTL("Player Number"), [_INTL("1"), _INTL("2")],
                               proc {
@@ -666,11 +666,11 @@ class PokemonOption_Scene
           end
         end
         if Input.trigger?(Input::BACK)
-          if $PokemonSystem.debug_mode == 0
+          `if $PokemonSystem.debug_mode == 0
             $DEBUG = true
           elsif $PokemonSystem.debug_mode == 1
             $DEBUG = false
-          end
+          end`
 
           if $PokemonSystem.player_num == 0
             $game_variables[294] = 1
@@ -686,11 +686,11 @@ class PokemonOption_Scene
           break
         elsif Input.trigger?(Input::USE)
           if isConfirmedOnKeyPress
-            if $PokemonSystem.debug_mode == 0
+            `if $PokemonSystem.debug_mode == 0
               $DEBUG = true
             elsif $PokemonSystem.debug_mode == 1
               $DEBUG = false
-            end
+            end`
 
             if $PokemonSystem.player_num == 0
               $game_variables[294] = 1
