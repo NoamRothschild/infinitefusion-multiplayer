@@ -1,3 +1,3 @@
-host = 'redis-15606.c268.eu-west-1-2.ec2.redns.redis-cloud.com'
-port = 15606
-password = 'I5ImQGaS2tq9s7lD2dXg7ikwjH26pAQL'
+host = ''
+port = 0
+password = '0'
