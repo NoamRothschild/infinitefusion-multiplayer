@@ -419,6 +419,19 @@ class PokemonOption_Scene
   def pbGetOptions(inloadscreen = false)
     options = []
 
+    options << EnumOption.new(_INTL("Debug mode"), [_INTL("ON"), _INTL("OFF")],
+                              proc {
+                                $PokemonSystem.debug_mode
+                                #$DEBUG = true
+                                #pbMessage("Debug Mode Enabled")
+                              },
+                              proc { |value|
+                                $PokemonSystem.debug_mode = value
+                                #$DEBUG = false
+                                #pbMessage("Debug Mode Disabled")
+                              }, "Enable/Disable Debug mode"
+    )
+
     options << EnumOption.new(_INTL("Player Number"), [_INTL("1"), _INTL("2")],
                               proc {
                                 $PokemonSystem.player_num
