@@ -419,18 +419,18 @@ class PokemonOption_Scene
   def pbGetOptions(inloadscreen = false)
     options = []
 
-    `options << EnumOption.new(_INTL("Debug mode"), [_INTL("ON"), _INTL("OFF")],
-                              proc {
-                                $PokemonSystem.debug_mode
-                                #$DEBUG = true
-                                #pbMessage("Debug Mode Enabled")
-                              },
-                              proc { |value|
-                                $PokemonSystem.debug_mode = value
-                                #$DEBUG = false
-                                #pbMessage("Debug Mode Disabled")
-                              }, "Enable/Disable Debug mode"
-    )`
+    #options << EnumOption.new(_INTL("Debug mode"), [_INTL("ON"), _INTL("OFF")],
+    #                          proc {
+    #                            $PokemonSystem.debug_mode
+    #                            #$DEBUG = true
+    #                            #pbMessage("Debug Mode Enabled")
+    #                          },
+    #                          proc { |value|
+    #                            $PokemonSystem.debug_mode = value
+    #                            #$DEBUG = false
+    #                            #pbMessage("Debug Mode Disabled")
+    #                          }, "Enable/Disable Debug mode"
+    #)
 
     options << EnumOption.new(_INTL("Player Number"), [_INTL("1"), _INTL("2")],
                               proc {
@@ -447,14 +447,14 @@ class PokemonOption_Scene
                               }, "Set the client number you're going to play as"
     )
 
-    `options << EnumOption.new(_INTL("Initialize"), [_INTL("REFRESH"), _INTL("ME")],
-                              proc {
-                                $PokemonSystem.init
-                              },
-                              proc {
-                                #DisplayedPlayer.initializer
-                              }, "Flick this off and on every time you load the game again."
-    )`
+    #options << EnumOption.new(_INTL("Initialize"), [_INTL("REFRESH"), _INTL("ME")],
+    #                          proc {
+    #                            $PokemonSystem.init
+    #                          },
+    #                          proc {
+    #                            #DisplayedPlayer.initializer
+    #                          }, "Flick this off and on every time you load the game again."
+    #)
 
     options << SliderOption.new(_INTL("Music Volume"), 0, 100, 5,
                                 proc { $PokemonSystem.bgmvolume },
@@ -666,11 +666,11 @@ class PokemonOption_Scene
           end
         end
         if Input.trigger?(Input::BACK)
-          `if $PokemonSystem.debug_mode == 0
-            $DEBUG = true
-          elsif $PokemonSystem.debug_mode == 1
-            $DEBUG = false
-          end`
+          #if $PokemonSystem.debug_mode == 0
+          #  $DEBUG = true
+          #elsif $PokemonSystem.debug_mode == 1
+          #  $DEBUG = false
+          #end
 
           if $PokemonSystem.player_num == 0
             $game_variables[294] = 1
@@ -686,11 +686,11 @@ class PokemonOption_Scene
           break
         elsif Input.trigger?(Input::USE)
           if isConfirmedOnKeyPress
-            `if $PokemonSystem.debug_mode == 0
-              $DEBUG = true
-            elsif $PokemonSystem.debug_mode == 1
-              $DEBUG = false
-            end`
+            #if $PokemonSystem.debug_mode == 0
+            #  $DEBUG = true
+            #elsif $PokemonSystem.debug_mode == 1
+            #  $DEBUG = false
+            #end
 
             if $PokemonSystem.player_num == 0
               $game_variables[294] = 1

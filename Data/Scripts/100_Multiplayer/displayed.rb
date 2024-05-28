@@ -65,6 +65,9 @@ class DisplayedPlayer
     if hash_data[:map_id] == $game_map.map_id
       $game_variables[298] = hash_data[:x]
       $game_variables[299] = hash_data[:y]
+    else
+      $game_variables[298] = 0
+      $game_variables[299] = 0
     end
   end
 
@@ -81,6 +84,7 @@ class DisplayedPlayer
     $game_variables[300] = 2
     return
   end
+  
   def self.walkto(event_id, direction)
     x = $game_variables[298]
     y = $game_variables[299]
@@ -286,11 +290,17 @@ class DisplayedPlayer
       hashed_loc = other_curr_loc_hashed
       old_hashed_loc = @other_last_loc_hashed
 
-      $game_variables[298] = hashed_loc[:x]
-      $game_variables[299] = hashed_loc[:y]
       $game_variables[296] = old_hashed_loc[:x]
       $game_variables[297] = old_hashed_loc[:y]
       $game_variables[300] = hashed_loc[:direction]
+
+      if hashed_loc[:map_id] == $game_map.map_id
+        $game_variables[298] = hashed_loc[:x]
+        $game_variables[299] = hashed_loc[:y]
+      else
+        $game_variables[298] = 0
+        $game_variables[299] = 0
+      end
 
       self.walkto(event_id, $game_variables[300])
       @other_last_loc_hashed = other_curr_loc_hashed

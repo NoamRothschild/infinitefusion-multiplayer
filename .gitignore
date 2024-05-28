@@ -25,3 +25,8 @@ Data/System.rxdata
 *.gif
 Graphics/Pictures/Readme.txt
 Data/System.rxdata
+Data/Actors.rxdata
+Data/Armors.rxdata
+Data/Enemies.rxdata
+Data/Items.rxdata
+Data/Weapons.rxdata
