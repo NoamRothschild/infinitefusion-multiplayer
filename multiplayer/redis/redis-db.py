@@ -32,11 +32,7 @@ try:
     import time
 
     if host == '' and port == 0 and password == '':
-            print("Please add your redis database details to the file before starting")
-            time.sleep(1)
-            print("Closing in 5 seconds...")
-            time.sleep(5)
-            exit()
+        raise Exception("Please add your redis database details to the file before starting")
 
 
     #From Here
@@ -155,4 +151,4 @@ try:
         except Exception as e:
             print(f"An error has occured: {e}")
 except Exception as e:
-    input(f"An erorr has occured! Please report this error to the reddit post,\nError: {e}")
+    input(f"An erorr has occured! Please report this error to the reddit post if struggling,\nError: {e}")
