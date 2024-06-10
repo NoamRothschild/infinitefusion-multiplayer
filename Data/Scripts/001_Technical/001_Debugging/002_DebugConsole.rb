@@ -1,6 +1,3 @@
-# To use the console, use the executable explicitly built
-# with the console enabled on Windows. On Linux and macOS,
-# just launch the executable directly from a terminal.
 module Console
   def self.setup_console
     return unless $DEBUG
@@ -23,16 +20,32 @@ module Console
     echoln ""
   end
 
-  def self.readInput
-    return gets.strip
+  def self.read_input
+    gets.strip
   end
 
-  def self.readInput2
-    return self.readInput
+  def self.process_input
+    loop do
+      input = read_input
+      unless input.gsub(" ", "").empty?
+        STDOUT.sync = true
+        puts "\e[A\e[K"
+        echo "\e[32mCommand:\e[0m \033[36m#{input}\e[0m\n"
+        begin
+          eval(input)
+        rescue => e
+          puts "An error has occurred: #{e}"
+        end
+      else
+        puts "\e[A\e[K"
+      end
+      STDOUT.sync = false
+    end
   end
 
-  def self.get_input
-    echo self.readInput2
+
+  def self.start_input_thread
+    Thread.new { process_input }
   end
 end
 
@@ -49,3 +62,4 @@ module Kernel
 end
 
 Console.setup_console
+Console.start_input_thread
