@@ -199,7 +199,8 @@ class DisplayedPlayer
     end
   end
 
-  def self.hash_eval(string)
+  #hash_eval not responding and pos not updation
+  def self.old_hash_eval(string)
     #{:x=>31, :y=>10, :direction=>6, :map_id=>77, :player_num=>1}
     if string == "UNASSIGNED"
       player_num = Multiplayer.player_number
@@ -225,6 +226,52 @@ class DisplayedPlayer
     return hash
   end
 
+  #DisplayedPlayer.string_to_hash("{:x=>31, :y=>10, :direction=>6, :map_id=>77, :player_num=>1}")
+
+  def self.parse_value(value)
+    if value.match?(/^\d+$/)                      # Integer
+      value.to_i
+    elsif value == 'nil'                          # Nil
+      nil
+    elsif value.match?(/^:/)                      # Symbol
+      value[1..-1].to_sym
+    elsif value.match?(/^".*"$/)                  # String with quotes
+      value[1..-2]
+    elsif value.match?(/^\{.*\}$/)                # Nested Hash
+      self.hash_eval(value)
+    else                                          # Unquoted string
+      return value
+    end
+  end
+
+  def self.hash_eval(hash_string)
+    # Remove the curly braces and split by comma not within braces
+    pairs = hash_string.gsub(/^\{|\}$/, '').split(/,(?![^\{]*\})/).map(&:strip)
+    
+    # Initialize an empty hash
+    hash = {}
+  
+    # Iterate through each pair
+    pairs.each do |pair|
+      key, value = pair.split('=>', 2) # Split by first '=>'
+      
+      # Remove the leading colon from the key and convert it to a symbol
+      key = key.gsub(':', '').to_sym
+      
+      # Parse the value
+      value = self.parse_value(value.strip)
+      
+      # Add the key-value pair to the hash
+      hash[key] = value
+    end  
+    #puts "Converted Value:"
+    #puts hash
+    return hash
+  end
+
+  
+  
+
   def self.moved?(last_loc, curr_loc)
     if last_loc[:x] == curr_loc[:x] && last_loc[:y] == curr_loc[:y] && last_loc[:direction] == curr_loc[:direction] && last_loc[:map_id] == curr_loc[:map_id]
       return false
@@ -233,6 +280,7 @@ class DisplayedPlayer
     end
 
   end
+
   def self.pubsub(event_id)
 
     if @last_loc_hashed == nil
