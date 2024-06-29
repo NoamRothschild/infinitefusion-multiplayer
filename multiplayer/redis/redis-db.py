@@ -116,6 +116,7 @@ try:
             listner_thread.start()
 
             #Start listening for new updates in your map
+            print("Multiplayer Server Loaded! \nmake sure to keep this window up and running\nwhen playing, have fun!")
             print("Sucessfully started up listner!")
 
             while True:
