@@ -1,5 +1,10 @@
 # Pokémon Infinite Fusion: Multiplayer Extension
 
+## IMPORTANT NOTE:
+**This project is no longer beings maintained and a new version of the project has been created. this old version is very INSECURE & OUTDATED. I advise you to wait until the new version comes up (after PIF will release their next update) for the new version to be released**
+
+### If you are interested in trying out the new version [check it out here](https://github.com/NoamRothschild/infinitefusionmultiplayer) Altough I won't be able to assist you with installing it.
+
 This is a hard coded plugin developed for the community made game "Pokémon Infinite Fusion" that adds a way to connect multiple clients to a server and play the game with your friends!
 The plugin is currently only developed by me (Noam Rothschild), a 14yo kid with a passion for development, so nothing is perfect, and this is also my first project using the programming language "Ruby" and first experience using GitHub, so please notify me if any problems occur and tell me I suck at coding :) .
 
