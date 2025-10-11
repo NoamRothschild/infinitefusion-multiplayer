@@ -1,6 +1,15 @@
 # Pokémon Infinite Fusion: Multiplayer Extension
 
-## IMPORTANT NOTE:
+## Notice to All Visitors
+
+As of October 12, 2025, this project repository is officially deprecated.
+
+For ongoing updates and continued development, please refer to the new maintainer in the [Kuray Hub Discord server](https://discord.gg/kuray-hub-1121345297352753243), specifically in the `#KIF-Multiplayer` channel.
+
+**As of this date, the project is being maintained by @алек.**
+
+### IMPORTANT NOTE:
+
 **This project is no longer beings maintained and a new version of the project has been created. this old version is very INSECURE & OUTDATED. I advise you to wait until the new version comes up (after PIF will release their next update) for the new version to be released**
 
 ### If you are interested in trying out the new version [check it out here](https://github.com/NoamRothschild/infinitefusionmultiplayer) Altough I won't be able to assist you with installing it.
